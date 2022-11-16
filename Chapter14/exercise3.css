@@ -1,0 +1,44 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: #0d4c92;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#template1 {
+  display: flex;
+  flex-direction: row;
+}
+
+#paragraph {
+  display: none;
+}
+
+img {
+  float: left;
+  margin: 0;
+}
+
+#main-container {
+  background-color: white;
+  width: 90vw;
+  border-radius: 10px;
+  padding: 1%;
+}
+
+#buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.bttn {
+  width: 100px;
+  height: 70px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+}

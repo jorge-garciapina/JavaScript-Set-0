@@ -1,0 +1,34 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #011f4b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#meter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: space-around; */
+
+  background-color: white;
+  width: 90vw;
+  height: 15vh;
+  margin-bottom: 5px;
+}
+
+h1 {
+  font-size: 5rem;
+  color: #b3cde0;
+}
+#boton {
+  width: 20vw;
+  height: 10vh;
+  border-radius: 10px;
+  font-size: 3rem;
+  background-color: #b3cde0;
+}
