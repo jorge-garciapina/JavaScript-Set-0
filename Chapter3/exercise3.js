@@ -4,14 +4,14 @@
 let myMath = {
   add: function (...args) {
     let suma = 0;
-    for (elmnt of args) {
+    for (let elmnt of args) {
       suma += elmnt;
     }
     return suma;
   },
   mul: function (...args) {
     let multi = 1;
-    for (elmnt of args) {
+    for (let elmnt of args) {
       multi *= elmnt;
     }
     return multi;
