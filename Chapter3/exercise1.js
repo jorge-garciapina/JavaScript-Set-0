@@ -1,3 +1,4 @@
+// METHOD 1: SOLUTION WITHOUT BUILT-IN FUNCTIONS FUNCTIONALITY:
 function mul(a, b) {
   // 1) MULTIPLICATION
   let n = a * b;
@@ -38,3 +39,11 @@ function mul(a, b) {
 }
 
 console.log(mul(9, 6));
+
+// METHOD 2: SOLUTION WITH BUILT-IN FUNCTIONS FUNCTIONALITY:
+function mul1(num1, num2) {
+  let result = num1 * num2;
+  return result.toString(13);
+}
+var answer = mul1(9, 6);
+console.log(answer); // "42"
