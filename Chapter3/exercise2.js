@@ -4,7 +4,7 @@ function add(...arguments) {
   // I decided to use this algorith for adition instead of using a built-in
   // function.
   let result = 0;
-  for (elmnt of arguments) {
+  for (let elmnt of arguments) {
     result += elmnt;
   }
 
