@@ -1,6 +1,6 @@
 // For the first class I am considering a zombie attack.
 // The class define different kind of people in a zombie attack
-class postApocallipticHuman {
+class PostApocallipticHuman {
   constructor(name, alive, speed, strength, patience) {
     this.alive = alive;
     this.speed = speed;
@@ -27,7 +27,7 @@ class postApocallipticHuman {
 }
 
 // Survivor 1: runner- It has a best sprint than the others
-class runner extends postApocallipticHuman {
+class Runner extends PostApocallipticHuman {
   constructor(name, alive, speed, strength, patience) {
     super(name, alive, speed, strength, patience);
   }
@@ -38,7 +38,7 @@ class runner extends postApocallipticHuman {
 }
 
 // Survivor 2: soldier- It has a experience in fights
-class soldier extends postApocallipticHuman {
+class Soldier extends PostApocallipticHuman {
   constructor(name, alive, speed, strength, patience) {
     super(name, alive, speed, strength, patience);
   }
@@ -49,7 +49,7 @@ class soldier extends postApocallipticHuman {
 
 // Survivor 3: hippie- It has more patiente, which allow him
 // to resist the pass of the time: sadness, boredom and lonelyness
-class hippie extends postApocallipticHuman {
+class Hippie extends PostApocallipticHuman {
   constructor(name, alive, speed, strength, patience) {
     super(name, alive, speed, strength, patience);
   }
@@ -59,7 +59,7 @@ class hippie extends postApocallipticHuman {
 }
 
 // Zombie: is the predator of the survivors
-class zombie extends postApocallipticHuman {
+class Zombie extends PostApocallipticHuman {
   sprint() {
     return this.speed * Math.random() * Math.exp(Math.random(), 2);
   }
@@ -74,45 +74,45 @@ class zombie extends postApocallipticHuman {
 }
 
 // Now we create some instances of this clases, i.e. the survivors:
-let corredor = new runner("Runner", true, 2, 2, 2);
-console.log("Corredor: ");
-console.log(corredor.sprint());
-console.log(corredor.fight());
-console.log(corredor.timeResistance());
+let runner = new Runner("Runner", true, 2, 2, 2);
+console.log("Runner: ");
+console.log(runner.sprint());
+console.log(runner.fight());
+console.log(runner.timeResistance());
 
-let soldado = new soldier("Soldier", true, 2, 2, 2);
-console.log("Soldado: ");
-console.log(soldado.sprint());
-console.log(soldado.fight());
-console.log(soldado.timeResistance());
+let soldier = new Soldier("Soldier", true, 2, 2, 2);
+console.log("Soldier: ");
+console.log(soldier.sprint());
+console.log(soldier.fight());
+console.log(soldier.timeResistance());
 
-let filosofo = new hippie("Hippie", true, 2, 2, 2);
-console.log("filosofo: ");
-console.log(filosofo.sprint());
-console.log(filosofo.fight());
-console.log(filosofo.timeResistance());
+let hippie = new Hippie("Hippie", true, 2, 2, 2);
+console.log("Hippie: ");
+console.log(hippie.sprint());
+console.log(hippie.fight());
+console.log(hippie.timeResistance());
 
 // And the zombie
-let nigromante = new zombie("Zombie", false, 1, 1, 1);
-console.log("nigromante: ");
-console.log(nigromante.sprint());
-console.log(nigromante.fight());
-console.log(nigromante.timeResistance());
+let zombie = new Zombie("Zombie", false, 1, 1, 1);
+console.log("Zombie: ");
+console.log(zombie.sprint());
+console.log(zombie.fight());
+console.log(zombie.timeResistance());
 
 // IN ORDER TO HAVE SOME FUN, LETS USE THIS INSTANCES IN A GAME:
 
-let survivors = [corredor, soldado, filosofo];
+let survivors = [runner, soldier, hippie];
 
 let days = 0;
 while (true) {
   for (elmnt of survivors) {
-    if (elmnt.fight() <= nigromante.fight()) {
+    if (elmnt.fight() <= zombie.fight()) {
       console.log(elmnt.name + " was weak and died");
       elmnt.alive = false;
-    } else if (elmnt.sprint() <= nigromante.sprint()) {
+    } else if (elmnt.sprint() <= zombie.sprint()) {
       console.log(elmnt.name + " was slow and died");
       elmnt.alive = false;
-    } else if (elmnt.timeResistance() <= nigromante.timeResistance()) {
+    } else if (elmnt.timeResistance() <= zombie.timeResistance()) {
       console.log(elmnt.name + " did not resist the lonelyness and died");
       elmnt.alive = false;
     }
