@@ -24,17 +24,17 @@ function distance(...arguments) {
   // Part 3: The code will throw an error if:
   // 1) Only one coordinate is given (as it is specified in text)
   // 2) The points have different number of coordinates.
-  if (p1.length < 2 || p1.length < 2 || p1.length !== p2.length) {
+  if (p1.length < 2 || p2.length < 2 || p1.length !== p2.length) {
     throw "Insufficient parameters";
   }
 
   // Part 4: Addition of the elements.
-  let suma = 0;
+  let addition = 0;
   for (let i = 0; i <= p1.length - 1; i++) {
-    suma += Math.pow(p1[i] - p2[i], 2);
+    addition += Math.pow(p1[i] - p2[i], 2);
   }
 
-  return Math.sqrt(suma);
+  return Math.sqrt(addition);
 }
 
 var x1 = 1,
