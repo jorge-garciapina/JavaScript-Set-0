@@ -59,6 +59,8 @@ function prueba() {
   // the random sentence in the console, I display the sentence
   // on the HTML as well just for practice:
   let sentence = document.getElementById("sentence");
-  sentence.innerHTML = "";
-  sentence.innerHTML += p1[intRand()] + p2[intRand()] + p3[intRand()];
+  sentence.textContent = "";
+  let newNode = document.createElement("p");
+  newNode.textContent = p1[intRand()] + p2[intRand()] + p3[intRand()];
+  sentence.appendChild(newNode);
 }
