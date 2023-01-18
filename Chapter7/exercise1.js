@@ -7,24 +7,16 @@ function hex2Rgb(hex) {
   let hexaValues = { a: 10, b: 11, c: 12, d: 13, e: 14, f: 15 };
 
   // Defenition 3: Patters that will be used to extract the information in input.
-  let patters = {
-    // Pattern 1: 2 characters following a #
-    reg1: /(?<=#)[a-f0-9]{2}/,
-    // Pattern 2: 2 characters following a 2 characters
-    reg2: /(?<=[a-f0-9]{2})[a-f0-9]{2}/,
-    // Pattern 3: 2 characters before the end of the string
-    reg3: /[a-f0-9]{2}$/,
-  };
+  let regex = /((?<=#)[a-f0-9]{2})|((?<=[a-f0-9]{2})[a-f0-9]{2})|([a-f0-9]{2}$)/g;
+
+  let matches = hex.match(regex);
 
   // PART 2: CONVERSION HEXADECIMAL TO DECIMAL:
   // Variable to save the output colors.
   let colors = [];
 
   // This for will loop over the patterns
-  for (elmnt of Object.values(patters)) {
-    // This will give the characters that match the given pattern:
-    let color = hex.match(elmnt)[0];
-
+  for (let color of matches) {
     // ----------------START: Loop for conversion:--------------
     let i = 1;
     let result = 0;
