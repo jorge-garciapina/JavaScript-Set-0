@@ -18,35 +18,21 @@ function englishFrench(date) {
       return -1;
     }
   };
-
-  // Now, for clarity in my explanation I decided to write
-  // the steps in detail:
-
-  // PART 1: REVERSING THE STRING (French format: yyyy/mm/dd):
-  let step1 = date.split("/");
-  let step2 = step1.reverse();
-  // step3 is the date transform to French format.
-  let step3 = step2.join("/");
-
-  // PART 2: EXTRACTING THE DATE IN FORMAT SUITABLE FOR -hollidays-
-  let regex = /(?<=\D)\d{2}/g;
-  let step4 = step3.match(regex);
-  // step5 is the string in -hollidays- format
-  let step5 = step4.join("");
-
-  // PART3: DEFINING THE UOTPUT FOR THIS FUNCTION:
-  // The code evluates the closure -hollidays-
-  let step6 = hollidays(step5);
+  // Extract the information of the input:
+  let regex = /\d+/g;
+  let matches = date.match(regex);
+  // To check if there are a celebration at the given date
+  let celebration = hollidays(matches[0] + matches[1]);
 
   // Output1: There is not a party in that day, returns only the date
   // in French format.
-  if (step6 === -1) {
-    return step3;
+  if (celebration === -1) {
+    return matches.reverse().join("/");
   }
   // Output2: There is one party in that day, returns the date and
   // the name of that day's party.
   else {
-    return step3 + " (" + step6 + ")";
+    return matches.reverse().join("/") + " (" + celebration + ")";
   }
 }
 
