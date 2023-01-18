@@ -51,6 +51,35 @@ class Quadrilateral extends Shape {
   }
 }
 
+class Square extends Quadrilateral {
+  constructor(edges) {
+    super(edges);
+  }
+
+  area() {
+    let corners = this.edges.length;
+    let sides = [];
+    for (let i = 0; i <= 2 - 1; i++) {
+      let xComponent =
+        this.edges[i % corners][0] - this.edges[(i + 1) % corners][0];
+      let yComponent =
+        this.edges[i % corners][1] - this.edges[(i + 1) % corners][1];
+
+      let side = Math.pow(
+        Math.pow(xComponent, 2) + Math.pow(yComponent, 2),
+        0.5
+      );
+      sides.push(side);
+    }
+
+    if (sides[0] !== sides[1]) {
+      throw new Error("This is not a square");
+    }
+
+    return sides[0] * sides[1];
+  }
+}
+
 class Triangle extends Shape {
   constructor(edges) {
     super(edges);
@@ -79,6 +108,14 @@ const cuadro = new Quadrilateral([
   [7, 0],
 ]);
 console.log(cuadro.area());
+
+const square = new Square([
+  [0, 0],
+  [0, 2],
+  [2, 2],
+  [0, 2],
+]);
+console.log("Square:", square.area());
 
 const triangulo = new Triangle([
   [0, 0],
