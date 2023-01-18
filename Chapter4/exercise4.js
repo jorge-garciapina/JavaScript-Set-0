@@ -6,7 +6,7 @@ function dataType(...arguments) {
   let output = [];
   // In this for the code loops over all the given arguments (which are
   // saved in the array named -arguments-)
-  for (elmnt of arguments) {
+  for (let elmnt of arguments) {
     // This condition is necessary because: typeof [] = "object", and
     // the problem requires to differentiate between "array" and "object"
     if (Array.isArray(elmnt)) {
