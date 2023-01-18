@@ -4,13 +4,23 @@
 
 // If the user gives a data different than a number, the value won't
 // be saved in the object
-class onlyNumbers {
-  constructor(number) {
-    if (typeof number === "number") {
-      this.number = number;
+class OnlyNumbers {
+  constructor(value) {
+    this._value = value;
+  }
+
+  get value() {
+    return this._value;
+  }
+  set value(val) {
+    if (typeof val !== "number") {
+      throw new Error("Value must be a number");
     }
+    this._value = val;
   }
 }
-
-let num = new onlyNumbers(5);
-console.log(num);
+let numberObject = new OnlyNumbers(5);
+console.log(numberObject.value);
+numberObject.value = 0;
+console.log(numberObject.value);
+numberObject.value = "text"; // Throws an error
