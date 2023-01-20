@@ -1,42 +1,86 @@
+let closureValueColumns = (function () {
+  let counter = 0;
+  return function () {
+    return counter;
+  };
+})();
+
+let closureValueRows = (function () {
+  let counter = 0;
+  return function () {
+    return counter;
+  };
+})();
+
+
 // -------------------------------------------------
 // ------------------START: PART 1------------------
 // PART 1: DEFINING THE FUNCTIONALITY + AND - BUTTONS:
-
-// Button 1: (+) for rows
-function moreRows() {
-  const rowNumber = document.getElementById("rows-value");
-  let numeric = Number(rowNumber.innerHTML);
-  rowNumber.innerHTML = String(numeric + 1);
-}
-
-// Button 2: (-) for rows
-function lessRows() {
-  const rowNumber = document.getElementById("rows-value");
-  let numeric = Number(rowNumber.innerHTML);
-  if (numeric - 1 <= 0) {
-    rowNumber.innerHTML = "0";
-  } else {
-    rowNumber.innerHTML = String(numeric - 1);
-  }
-}
-
-// Button 3: (+) for columns
+// ----------Start: Columns----------
+// Button 1: (+) for columns
 function moreColumns() {
+  let value = closureValueColumns();
+  value++;
+
+  closureValueColumns = function () {
+    return value;
+  };
   const columnNumber = document.getElementById("columns-value");
-  let numeric = Number(columnNumber.innerHTML);
-  columnNumber.innerHTML = String(numeric + 1);
+
+  columnNumber.textContent = closureValueColumns();
 }
 
-// Button 4: (-) for columns
+// Button 2: (-) for columns
 function lessColumns() {
-  const columnNumber = document.getElementById("columns-value");
-  let numeric = Number(columnNumber.innerHTML);
-  if (numeric - 1 <= 0) {
-    columnNumber.innerHTML = "0";
+  let value = closureValueColumns();
+  if (value <= 0) {
+    value = 0;
   } else {
-    columnNumber.innerHTML = String(numeric - 1);
+    value--;
+  }
+
+  closureValueColumns = function () {
+    return value;
+  };
+  const columnNumber = document.getElementById("columns-value");
+  columnNumber.textContent = closureValueColumns();
+}
+// -----------End: Columns-----------
+
+// ----------  Start: Rows ----------
+// Button 3: (+) for rows
+function moreRows() {
+  let value = closureValueRows();
+  value++;
+  closureValueRows = function () {
+    return value;
+  };
+  const columnNumber = document.getElementById("rows-value");
+  if (closureValueRows() <= 0) {
+    columnNumber.textContent = "0";
+  } else {
+    columnNumber.textContent = closureValueRows();
   }
 }
+
+// Button 4: (-) for rows
+function lessRows() {
+  let value = closureValueRows();
+  if (value <= 0) {
+    value = 0;
+  } else {
+    value--;
+  }
+
+  closureValueRows = function () {
+    return value;
+  };
+  const columnNumber = document.getElementById("rows-value");
+
+  columnNumber.textContent = closureValueRows();
+}
+// -----------  End: Rows  ----------
+
 // ------------------END: PART 1--------------------
 // -------------------------------------------------
 
@@ -52,10 +96,11 @@ function applyChanges() {
   const columnNumber = document.getElementById("columns-value");
 
   // Extract the values chosen by the user
-  // Rows:
-  let numericRow = Number(rowNumber.innerHTML);
   // Columns:
-  let numericColumn = Number(columnNumber.innerHTML);
+  let numericColumn = closureValueColumns();
+
+  // Rows:
+  let numericRow = closureValueRows();
   // ------END: VALUES OF COLUMNS AND ROWS ------
 
   // -------------------START: MAIN CONTAINER ------------------
@@ -75,12 +120,14 @@ function applyChanges() {
   mainContainer.setAttribute(
     "style",
     "grid-template-columns: repeat(" +
-      String(numericRow) +
-      ", auto [col-start]);"
+      String(numericColumn) +
+      ", auto [row-start]);"
   );
   // -------------------END: MAIN CONTAINER ------------------
 
   // ----------START: ADDING THE GRID ITEMS ------------------
+// Create a document fragment to avoid manipulating the rendered DOM on every loop iteration
+  const fragment = document.createDocumentFragment();
   for (let i = 0; i <= numericRow * numericColumn - 1; i++) {
     // Creation of the grid items:
     const gritItem = document.createElement("div");
@@ -89,9 +136,11 @@ function applyChanges() {
       "style",
       "background-color: red; border:solid; border-color: black"
     );
-    // append the grid item as child of the main container
-    mainContainer.appendChild(gritItem);
+    // append the grid item to the document fragment
+    fragment.appendChild(gritItem);
   }
+  // Append the fragment to the main container
+  mainContainer.appendChild(fragment);
   // ----------END: ADDING THE GRID ITEMS ------------------
 }
 
