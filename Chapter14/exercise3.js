@@ -1,131 +1,143 @@
-// -----------------START: PART 1-------------------
-// PART 1: INITIAL AND AFTER-REFRESH VIEW OF THE PAGE:
+fetch("exercise3.json")
+  .then((response) => response.json())
+  .then((data) => {
+    // --------------- START: SESSION---------------
+    // This part is used to manage refresh page
+    window.addEventListener("load", function () {
+      const currentView = localStorage.getItem("currentView");
+      if (currentView === null || currentView === "template1") {
+        template1();
+      } else {
+        template2();
+      }
+    });
+    //---------------- END: SESSION----------------
 
-// Obtaining the information about the main container
-const mainContainer = document.getElementById("main-container");
+    function template1() {
+      // -----------------------------------------------
+      // ---------------START: TEMPLATE 1---------------
+      const items = data.items;
+      const mainContainer = document.getElementById("main-container");
+      mainContainer.innerHTML = "";
 
-// for (elmnt of Object.keys(localStorage)) {
-//   delete localStorage[elmnt];
-// }
-// This structure:
-// 1) Evaluates if this is the first time the page is loaded
-if (Object.keys(localStorage).length === 0) {
-  template1();
-}
-// 2) Evaluates if the last chosen template was -template 1-
-else if (localStorage.getItem("whichView") === "template1") {
-  template1();
-}
-// 3) Evaluates if the last chosen template was -template 2-
-else if (localStorage.getItem("whichView") === "template2") {
-  template2();
-}
-// -----------------END: PART 1-------------------
-// -------------------------------------------------
+      // Create a document fragment
+      const template1 = document.createDocumentFragment();
 
-// -----------------------------------------------
-// ---------------START: TEMPLATE 1---------------
-function template1() {
-  // Here code creates (if it is the first time the page is loaded).
-  // or modifies the value of -whichView- (located in -localStorage-)
-  localStorage.setItem("whichView", "template1");
+      // This -for- iterates over all the elements in the JSON file
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
 
-  // Everytime the template1() is called, the page is re initializedc
-  mainContainer.innerHTML = "";
+        //---------- Start: article-container ----------
+        const container = document.createElement("div");
+        container.className = "article-container";
 
-  // Give some style to the main container (in order to display as required)
-  mainContainer.setAttribute("style", "display:flex; flex-direction: row");
+        // Adding the image
+        const image = document.createElement("img");
+        image.src = item.image;
+        image.style.cursor = "pointer";
+        image.className = "click-able";
+        container.appendChild(image);
+        //---------- End: article-container ----------
 
-  // CREATION OF THE ELEMENTS (TITLE, IMAGE AND TEXT):
-  // 1) CONTAINER FOR THE ELEMENTS:
-  const customContainer = document.createElement("div");
-  customContainer.setAttribute("style", "color: red;");
-  mainContainer.appendChild(customContainer);
-  customContainer.setAttribute(
-    "style",
-    "display: flex;" + "flex-direction: column"
-  );
+        //---------- Start: Sub-container ----------
+        const subContainer = document.createElement("div");
+        // Title:
+        const title = document.createElement("h2");
+        title.style.cursor = "pointer";
+        title.textContent = item.title;
 
-  // 2) TITLE:
-  const title = document.createElement("h1");
-  title.innerHTML = "This is template 1";
-  customContainer.appendChild(title);
+        // Text:
+        const text = document.createElement("p");
+        text.style.cursor = "pointer";
+        text.className = "click-able";
 
-  // 3) IMAGE:
-  const image = document.getElementById("template-image");
-  const clon = image.content.cloneNode(true);
-  customContainer.appendChild(clon);
+        text.textContent = item.text;
 
-  // 4) TEXT:
-  const texto = document.createElement("p");
-  texto.setAttribute("style", "text-align: justify; font-size:1.5rem");
-  // Functionallity to change template view
-  texto.setAttribute("onclick", "templateClick()");
-  // Tith this function the code calls the text from a JSON file
-  appendContent(texto);
-  mainContainer.append(texto);
-}
-// ---------------END: TEMPLATE 1-----------------
-// -----------------------------------------------
+        // Adding the items to sub-container
+        subContainer.appendChild(title);
+        subContainer.appendChild(text);
+        //----------- End: Sub-container -----------
 
-// -----------------------------------------------
-// ---------------START: TEMPLATE 2---------------
-function template2() {
-  // Modifies the value of -whichView- (located in -localStorage-)
-  localStorage.setItem("whichView", "template2");
+        //-------- Start: Event delegation. Change view --------
+        container.addEventListener("click", (event) => {
+          if (event.target.matches(".click-able")) {
+            localStorage.setItem("currentView", "template2");
+            localStorage.setItem("article", item.title);
+            template2();
+          }
+        });
+        //--------- End: Event delegation. Change view ---------
 
-  // Everytime the template2() is called, the page is re initialized
-  mainContainer.innerHTML = "";
+        // Adding the sub container, to the article-container:
+        container.appendChild(subContainer);
 
-  // This line is to clear the previously defined styles
-  mainContainer.setAttribute("style", "");
+        // Append article-container to the fragment:
+        template1.appendChild(container);
+      }
 
-  // CREATION OF THE ELEMENTS (TITLE, IMAGE AND TEXT):
-  // 1) IMAGE:
-  const image = document.getElementById("template-image");
-  const clon = image.content.cloneNode(true);
-  mainContainer.appendChild(clon);
+      // Append the fragment to the template1 element:
+      mainContainer.appendChild(template1);
+      // ---------------END: TEMPLATE 1-----------------
+      // -----------------------------------------------
+    }
+    function template2() {
+      // The logic behind this IIFE is:
+      // 1) When the view changed from template 1 to template 2
+      //    by clicking an article, the title of that article
+      //    is saved in localStorage.
+      // 2) The IIFE iterates over all the elements in the JSON file
+      //    looking for the entry that matches the title saved in the
+      //    localStorage.
+      // 3) Once it finds the entry with the desired title, the IIFE
+      //    returns it.
+      const item = (() => {
+        for (let element of data.items) {
+          if (element.title === localStorage.getItem("article")) {
+            return element;
+          }
+        }
+      })();
 
-  // 2) TITLE:
-  const title = document.createElement("h1");
-  title.innerHTML = "This is the amazing template 2";
-  mainContainer.appendChild(title);
+      const mainContainer = document.getElementById("main-container");
+      mainContainer.innerHTML = "";
+      const template2 = document.createDocumentFragment();
 
-  // 3) TEXT:
-  const texto = document.createElement("p");
-  texto.setAttribute("style", "text-align: justify; font-size:1.5rem;");
+      const container = document.createElement("div");
 
-  // To append the link:
-  const lnk = document.createElement("a");
-  lnk.innerHTML = "Link to template 1";
-  lnk.setAttribute("style", "color: blue; font-size: 2rem;");
-  // Functionallity to change template view
-  lnk.setAttribute("onClick", "templateClick()");
-  mainContainer.append(lnk);
+      // Image
+      const image = document.createElement("img");
+      image.src = item.image;
+      image.style.float = "left";
+      image.style.margin = "0";
 
-  // Tith this function the code calls the text from a JSON file
-  appendContent(texto);
-  //   texto.innerHTML = paragraph.innerHTML;
-  mainContainer.append(texto);
-}
+      // Title:
+      const title = document.createElement("h2");
+      title.textContent = item.title;
+      title.style.width = "100%";
+      title.style.fontSize = "3rem";
 
-// ---------------END: TEMPLATE 2-----------------
-// -----------------------------------------------
+      // Text:
+      const text = document.createElement("p");
+      text.textContent = item.text;
+      text.style.fontSize = "3rem";
 
-// AUXILIAR FUNCTIONS:
-// templateClick makes it possible to change template
-// when the user click image, text or link.
-function templateClick() {
-  if (localStorage.getItem("whichView") === "template1") {
-    template2();
-  } else {
-    template1();
-  }
-}
+      // Adding the items to sub-container
+      container.appendChild(image);
+      container.appendChild(title);
+      container.appendChild(text);
 
-// This function is used to get the data from the JSON file
-async function appendContent(htmlElement) {
-  let response = await fetch("./exercise3.json");
-  let data = await response.json();
-  htmlElement.innerHTML = data["textInside"];
-}
+      // To return template 1:
+      const back = document.createElement("button");
+      back.className = "back-button";
+      back.textContent = "Back!";
+      back.onclick = () => {
+        localStorage.setItem("currentView", "template1");
+        template1();
+      };
+      container.appendChild(back);
+
+      template2.appendChild(container);
+      mainContainer.appendChild(template2);
+    }
+  });
+
