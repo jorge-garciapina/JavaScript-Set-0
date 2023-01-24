@@ -60,10 +60,10 @@ class Building {
   // Function to find an employee:
   findPerson(nm) {
     // This if checks if the search has been made before
-    if (Object.keys(this.searches).indexOf(nm) !== -1) {
+    if (!!this.searches[nm]) {
+      console.log("RESULT BELOW FOUND IN CACHE:");
       return this.searches[nm];
-    }
-
+    } else {
     // Search algorithm:
     for (let flr of Object.keys(this)) {
       for (let rm of Object.keys(this[flr])) {
@@ -84,6 +84,9 @@ class Building {
         }
       }
     }
+    }
+
+
 
     // If the element is not in the building, returns -1
     return -1;
@@ -91,10 +94,10 @@ class Building {
 
   findEquipment(nm) {
     // This if checks if the search has been made before
-    if (Object.keys(this.searches).indexOf(nm) !== -1) {
+    if (!!this.searches[nm]) {
+      console.log("RESULT BELOW FOUND IN CACHE:");
       return this.searches[nm];
-    }
-
+    } else {
     // Search algorithm:
     for (let flr of Object.keys(this)) {
       for (let rm of Object.keys(this[flr])) {
@@ -121,6 +124,10 @@ class Building {
         }
       }
     }
+      
+    }
+
+
 
     // If the element is not in the building, returns -1
     return -1;
