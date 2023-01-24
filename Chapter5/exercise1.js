@@ -1,154 +1,133 @@
-// Exercise 1: Implement the following:
-// a. A bank that holds client’s information:
-//    i.  Account number;
-//    ii. Balance
-// b. A set of clients where each can:
-//    i.   hold money of their own;
-//    ii.  deposit money into the bank (to any account);
-//    iii. retrieve money from the bank (from personal account only);
-//    iv.  view current balance in bank (from personal account only)
-// c. A client cannot deposit more money than what it has;
-// d. A client cannot retrieve more money that what is in its account;
-// e. All financial information must be private
+// To addressed the feedback I decided to create another
+// solution.
+// By defining -Client- and -Bank- in this fashion, I solved
+// the problem I had before relative to privacy
+// of financial information.
 
-// STEP 1: CLIENT OPENS AN ACCOUNT IN THE BANK. CLIENT CHOOSE
-// CLIENT MAKES HIS FIRST DEPOSIT, CHOOSE HIS PASSWORD AND GIVE
-// HIS NAME.
+//-------------- START: CLIENT DEFINITION--------------
+const Client = (function () {
+  let clients = {};
 
-// STEP 2: CREATION OF THE BANK ELECTRONIC SYSTEM:
-class Bank {
-  // The system will stored the information about the clients in
-  // an object named -bankClients-
-  constructor() {
-    this.bankClients = {};
+  // To create a new client:
+  function addClient(name, pocketMoney) {
+    clients[name] = { name, pocketMoney };
   }
 
+  // To retrieve client's information:
+  function client(name) {
+    return clients[name];
+  }
+
+  // To deposit, in the desired bank.
+  function deposit(bank, client, destinatary, amount) {
+    if (amount <= client.pocketMoney) {
+      bank.bankDeposit(destinatary, amount);
+      clients[client.name].pocketMoney -= amount;
+    } else {
+      console.log("Insufficient funds.");
+    }
+  }
+
+  // To retrieve from the desired bank.
+  function retrieve(bank, accountNumber, amount) {
+    const indicator = bank.bankRetrieve(accountNumber, amount);
+    if (indicator === 0) {
+      console.log(`${accountNumber} is not a valid account`);
+    } else if (indicator === -1) {
+      console.log("Insufficient funds.");
+    } else {
+      clients[indicator.name].pocketMoney += amount;
+    }
+  }
+
+  // This is the interface that will be given to interact
+  // with -Client-.
+  return {
+    addClient,
+    client,
+    deposit,
+    retrieve,
+  };
+})();
+
+//--------------- END: CLIENT DEFINITION---------------
+
+//-------------- START: BANK DEFINITION--------------
+const Bank = (function () {
+  let accounts = {};
+
   // This methods adds new clients to the Bank's system.
-  addClient(client) {
-    this.bankClients[client.clientNumber] = client;
+  function addClient(accountNumber, client) {
+    let name = client.name;
+    accounts[accountNumber] = { accountNumber, name, balance: 0 };
+  }
+
+  // To deposit money in a particular accont:
+  function bankDeposit(destinatary, amount) {
+    if (!accounts[destinatary]) {
+      console.log(`${destinatary} is not a valid account`);
+    } else {
+      accounts[destinatary].balance += amount;
+    }
+  }
+
+  // To retrieve money from a particular accont:
+  function bankRetrieve(accountNumber, amount) {
+    if (!accounts[accountNumber]) {
+      return 0;
+    } else {
+      if (amount <= accounts[accountNumber].balance) {
+        accounts[accountNumber].balance -= amount;
+        return accounts[accountNumber];
+      } else {
+        return -1;
+      }
+    }
   }
 
   // View current balance in bank (from personal account only):
-  currentBalance(client, nip) {
-    let clientPassword = this.bankClients[client].password;
-    let clientBalance = this.bankClients[client].balance;
-    if (clientPassword === nip) {
-      return client + "- Current Balance: " + String(clientBalance);
+  function viewBalance(accountNumber) {
+    if (!accounts[accountNumber]) {
+      console.log(`${accountNumber} is not a valid account`);
     } else {
-      return client + "- Incorrect NIP, balance not available";
+      const accountInfo = accounts[accountNumber];
+      console.log(
+        "-" + accountInfo.name + "- has a balance of: " + accountInfo.balance
+      );
     }
   }
 
-  // Retrieve money from the bank (from personal account only):
-  retrieveMoney(client, nip, amount) {
-    let clientPassword = this.bankClients[client].password;
+  // This is the interface that will be given to interact
+  // with -Bank-.
+  return {
+    viewBalance,
+    addClient,
+    bankDeposit,
+    bankRetrieve,
+  };
+})();
+//--------------- END: BANK DEFINITION---------------
 
-    // The nip is correct:
-    if (nip === clientPassword) {
-      // The retrieved amount is correct
-      if (amount <= this.bankClients[client].balance) {
-        this.bankClients[client].balance -= amount;
-        return (
-          client +
-          "- Withdraw: " +
-          String(amount) +
-          ". New balance: " +
-          String(this.bankClients[client].balance)
-        );
-      }
-      // The retrieved amount is incorrect :
-      else {
-        return (
-          client +
-          "- Not enough founds. Current balance: " +
-          String(this.bankClients[client].balance)
-        );
-      }
-    }
-    // The nip is incorrect
-    else {
-      return client + "- Incorrect NIP, money withdraw not available";
-    }
-  }
-  // Deposit money into the bank, to any account;
-  deposit(client, nip, amount, destinatary) {
-    let clientPassword = this.bankClients[client].password;
-    // The nip is correct:
-    if (nip === clientPassword) {
-      // The retrieved amount is correct
-      if (amount <= this.bankClients[client].balance) {
-        this.bankClients[client].balance -= amount;
-        this.bankClients[destinatary].balance += amount;
-        return (
-          "Deposit:  " +
-          String(amount) +
-          " sent from: (" +
-          client +
-          ") to: (" +
-          destinatary +
-          ")"
-        );
-      }
-      // The retrieved amount is incorrect
-      else {
-        return (
-          client +
-          "- Not enough founds. Current balance: " +
-          String(this.bankClients[client].balance)
-        );
-      }
-    }
-    // The nip is incorrect:
-    else {
-      return client + "- Incorrect NIP, deposit not available";
-    }
-  }
-}
+// Creation of some clients
+Client.addClient("John Doe", 1000);
+Client.addClient("Jane Smith", 500);
+Client.addClient("Cyndi Lauper", 7500);
 
-// STEP 3: THE BANK SAVES THE USERS IN ITS SYSTEM
-let institution = new Bank();
+// Creation of a bank account of some clients
+Bank.addClient(1234, Client.client("John Doe"));
+Bank.addClient(5555, Client.client("Jane Smith"));
 
-institution.addClient({
-  clientNumber: "Pancho Villa",
-  balance: 100,
-  password: 1234,
-});
+// We deposit money in some accounts. It is important
+// to notice that to deposit it is not necessary to have
+// an account on the bank -Cyndy Lauper-, for example.
+Client.deposit(Bank, Client.client("John Doe"), 5555, 999);
+Client.deposit(Bank, Client.client("Cyndi Lauper"), 5555, 4000);
 
-institution.addClient({
-  clientNumber: "Dolores Hidalgo",
-  balance: 870,
-  password: 4567,
-});
+// Now, the client can retrieve money
+Client.retrieve(Bank, 5555, 80);
 
-institution.addClient({
-  clientNumber: "Octavio Paz",
-  balance: 1230,
-  password: 1111,
-});
+console.log(Client.client("John Doe"));
+console.log(Client.client("Jane Smith"));
+console.log(Client.client("Cyndi Lauper"));
 
-console.log(institution);
-// ------------------------------------
-
-// STEP 4: PROOF OF THE METHODS:
-// Information can only be accessed if pin is correct:
-// NIP Pancho Villa: 1234
-// NIP Dolores Hidalgo: 4567
-// NIP Octavio Paz: 1111
-// currentBalance(name, nip)
-console.log(institution.currentBalance("Pancho Villa", 1234));
-console.log(institution.currentBalance("Dolores Hidalgo", 4567));
-console.log(institution.currentBalance("Octavio Paz", 1111));
-console.log("________________________________________");
-// retrieveMoney(name, nip, amount)
-console.log(institution.retrieveMoney("Dolores Hidalgo", 4567, 1000));
-console.log(institution.retrieveMoney("Pancho Villa", 1234, 68));
-console.log(institution.retrieveMoney("Octavio Paz", 1111, 1000));
-console.log("________________________________________");
-// deposit(name(from), nip, amount, name(to))
-console.log(institution.deposit("Octavio Paz", 1111, 500, "Pancho Villa"));
-console.log(institution.deposit("Dolores Hidalgo", 4567, 500, "Pancho Villa"));
-console.log(institution.deposit("Dolores Hidalgo", 4567, 370, "Pancho Villa"));
-console.log("________________________________________");
-console.log(institution.currentBalance("Pancho Villa", 1234));
-console.log(institution.currentBalance("Dolores Hidalgo", 4567));
-console.log(institution.currentBalance("Octavio Paz", 1117));
+Bank.viewBalance(1234);
