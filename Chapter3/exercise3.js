@@ -3,25 +3,25 @@
 
 let myMath = {
   add: function (...args) {
-    let suma = 0;
+    let addition = 0;
     for (let elmnt of args) {
-      suma += elmnt;
+      addition += elmnt;
     }
-    return suma;
+    return addition;
   },
   mul: function (...args) {
-    let multi = 1;
+    let multiplication = 1;
     for (let elmnt of args) {
-      multi *= elmnt;
+      multiplication *= elmnt;
     }
-    return multi;
+    return multiplication;
   },
   fact: function (n) {
-    let result = 1;
+    let factorial = 1;
     for (let i = n; i > 1; i--) {
-      result *= i;
+      factorial *= i;
     }
-    return result;
+    return factorial;
   },
 };
 
