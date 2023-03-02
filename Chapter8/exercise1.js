@@ -1,7 +1,7 @@
-let interval = setInterval(prueba, 1 * 1000);
+let interval = setInterval(randomSentenceGenerator, 1 * 1000);
 
 let i = 0;
-function prueba() {
+function randomSentenceGenerator() {
   // This structure if for stopping the task after -n- repetitions:
   let n = 10;
   i++;
@@ -28,7 +28,7 @@ function prueba() {
     " horse",
     " lion",
     " mouse",
-    " manati",
+    " manatee",
     " hawk",
     " eagle",
     " dove",
@@ -64,3 +64,4 @@ function prueba() {
   newNode.textContent = p1[intRand()] + p2[intRand()] + p3[intRand()];
   sentence.appendChild(newNode);
 }
+
