@@ -58,76 +58,68 @@ class Building {
   searches = {};
 
   // Function to find an employee:
-  findPerson(nm) {
+  findPerson(currentSearch) {
     // This if checks if the search has been made before
-    if (!!this.searches[nm]) {
+    if (!!this.searches[currentSearch]) {
       console.log("RESULT BELOW FOUND IN CACHE:");
-      return this.searches[nm];
+      return this.searches[currentSearch];
     } else {
-    // Search algorithm:
-    for (let flr of Object.keys(this)) {
-      for (let rm of Object.keys(this[flr])) {
-        if (flr !== "searches") {
-          for (let employee of this[flr][rm]["employees"]) {
-            if (employee.name === nm) {
-              // this.searchEmployee[nm] = { room: rm, floor: flr };
-              this.searches[nm] = {
-                type: "Employee",
-                name: nm,
-                room: rm,
-                floor: flr,
-              };
+      // Search algorithm:
+      for (let currentFloor of Object.keys(this)) {
+        for (let currentRoom of Object.keys(this[currentFloor])) {
+          if (currentFloor !== "searches") {
+            for (let employee of this[currentFloor][currentRoom]["employees"]) {
+              if (employee.name === currentSearch) {
+                // this.searchEmployee[currentSearch] = { room: currentRoom, floor: currentFloor };
+                this.searches[currentSearch] = {
+                  type: "Employee",
+                  name: currentSearch,
+                  room: currentRoom,
+                  floor: currentFloor,
+                };
 
-              return { type: "Employee", name: nm, room: rm, floor: flr };
+                let result = this.searches[currentSearch];
+
+                return result;
+              }
             }
           }
         }
       }
     }
-    }
-
-
 
     // If the element is not in the building, returns -1
     return -1;
   }
 
-  findEquipment(nm) {
+  findEquipment(currentSearch) {
     // This if checks if the search has been made before
-    if (!!this.searches[nm]) {
+    if (!!this.searches[currentSearch]) {
       console.log("RESULT BELOW FOUND IN CACHE:");
-      return this.searches[nm];
+      return this.searches[currentSearch];
     } else {
-    // Search algorithm:
-    for (let flr of Object.keys(this)) {
-      for (let rm of Object.keys(this[flr])) {
-        if (flr !== "searches") {
-          for (let equip of this[flr][rm]["equipment"]) {
-            if (equip.name === nm) {
-              // this.searchEmployee[nm] = { room: rm, floor: flr };
-              this.searches[nm] = {
-                type: "Equipment",
-                name: nm,
-                room: rm,
-                floor: flr,
-              };
+      // Search algorithm:
+      for (let currentFloor of Object.keys(this)) {
+        for (let currentRoom of Object.keys(this[currentFloor])) {
+          if (currentFloor !== "searches") {
+            for (let equip of this[currentFloor][currentRoom]["equipment"]) {
+              if (equip.name === currentSearch) {
+                // this.searchEmployee[currentSearch] = { room: currentRoom, floor: currentFloor };
+                this.searches[currentSearch] = {
+                  type: "Equipment",
+                  name: currentSearch,
+                  room: currentRoom,
+                  floor: currentFloor,
+                };
 
-              return {
-                type: "Equipment",
-                name: nm,
-                room: rm,
-                floor: flr,
-                supervisor: equip.owner,
-              };
+                let result = this.searches[currentSearch];
+                return result;
+              }
             }
           }
         }
       }
     }
-      
-    }
-
-
 
     // If the element is not in the building, returns -1
     return -1;
@@ -137,25 +129,18 @@ class Building {
 let building = new Building();
 
 // To search for an employee
-let a = building.findPerson("Ana");
-console.log("Result: ", a);
+console.log("EMPLOYEES: ");
+console.log("Result: ", building.findPerson("Ana"));
+console.log("Result: ", building.findPerson("Miguel"));
+console.log("Result: ", building.findPerson("Ana"));
+console.log("Result: ", building.findPerson("Miguel"));
 
-let aa = building.findPerson("Ana");
-console.log("Result: ", aa);
-
-let b = building.findPerson("Miguel");
-console.log("Result: ", b);
-let c = building.findPerson("Mi");
-console.log("Result: ", c);
+console.log("Result: ", building.findPerson("Mi"));
 
 // To search for a piece of equipment
-let z = building.findEquipment("oven");
-console.log("Result: ", z);
+console.log("EQUIPMENT: ");
+console.log("Result: ", building.findEquipment("oven"));
+console.log("Result: ", building.findEquipment("pistol"));
+console.log("Result: ", building.findEquipment("pistol"));
 
-let x = building.findEquipment("pistol");
-console.log("Result: ", x);
-
-let w = building.findEquipment("pistol");
-console.log("Result: ", w);
-
-console.log(building.searches);
+// console.log(building.searches);
