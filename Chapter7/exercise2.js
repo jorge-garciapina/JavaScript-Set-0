@@ -1,6 +1,3 @@
-// hollidays("0501");
-// console.log(hollidays("05/01"));
-
 function englishFrench(date) {
   // hollidaysFrance is our "lookup table"
   const hollidaysFrance = {
@@ -18,22 +15,31 @@ function englishFrench(date) {
       return -1;
     }
   };
-  // Extract the information of the input:
-  let regex = /\d+/g;
-  let matches = date.match(regex);
-  // To check if there are a celebration at the given date
-  let celebration = hollidays(matches[0] + matches[1]);
 
-  // Output1: There is not a party in that day, returns only the date
+  // Extract the information of the input using a single regular expression
+  let regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+  let match = date.match(regex);
+
+  if (!match) {
+    return "Invalid date format";
+  }
+
+  let [, month, day, year] = match;
+
+  // To check if there is a celebration on the given date
+  let celebration = hollidays(month + day);
+
+  // Output1: There is not a party on that day, returns only the date
   // in French format.
   if (celebration === -1) {
-    return matches.reverse().join("/");
+    return `${day}/${month}/${year}`;
   }
-  // Output2: There is one party in that day, returns the date and
+  // Output2: There is one party on that day, returns the date and
   // the name of that day's party.
   else {
-    return matches.reverse().join("/") + " (" + celebration + ")";
+    return `${day}/${month}/${year} (${celebration})`;
   }
 }
 
 console.log(englishFrench("01/01/2014"));
+console.log(englishFrench("03/03/2014"));
