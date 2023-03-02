@@ -1,18 +1,3 @@
-let closureValueColumns = (function () {
-  let counter = 0;
-  return function () {
-    return counter;
-  };
-})();
-
-let closureValueRows = (function () {
-  let counter = 0;
-  return function () {
-    return counter;
-  };
-})();
-
-
 // -------------------------------------------------
 // ------------------START: PART 1------------------
 // PART 1: DEFINING THE FUNCTIONALITY + AND - BUTTONS:
