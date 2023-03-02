@@ -1,39 +1,37 @@
-// 5. Create a function that will print out the properties of an object.
-
 // PART 1: BASIC DEFINITIONS
-// Creaton of the class that will give life to the object.
+// Definition of the CustomObject class that will give life to the object.
 class CustomObject {
-  constructor(a, b) {
-    this.a = a;
-    this.b = b;
+  constructor(property1, property2) {
+    this.property1 = property1;
+    this.property2 = property2;
   }
 }
 
-// Creation of a value that is not part of the constructor.
-CustomObject.prototype.c = function () {
-  return this.a + this.b;
+// Adding a method to the CustomObject class that is not part of the constructor.
+CustomObject.prototype.calculateSum = function () {
+  return this.property1 + this.property2;
 };
 
-// Creation of the object
-var simpleObject = new CustomObject(1, 2);
+// Creation of an instance of the CustomObject class
+var myObject = new CustomObject(1, 2);
+
 // -------------------
 // PART 2: SOLUTION TO THE PROBLEM.
-// Definition of the function, to fullfill the requirements of the
-// problem, booleanParameter is set false by default.
-function printObjProp(inputObject, booleanParameter = false) {
-  // Case 1: to print all the properties accessible by the object
-  if (!booleanParameter) {
+// Definition of the function to print out the properties of an object.
+// The boolean argument indicates whether to print only the instance properties.
+function printObjectProperties(obj, printInstanceProperties = false) {
+  // Case 1: Print all the properties of the object
+  if (!printInstanceProperties) {
     let output = [];
-    for (let elmnt in inputObject) {
-      output.push(elmnt);
+    for (let property in obj) {
+      output.push(property);
     }
-
     return output;
   }
-  // Case 2: To print the values that belong to the object instance
-  return Object.keys(inputObject);
+  // Case 2: Print only the instance properties of the object
+  return Object.keys(obj);
 }
 
-// Call to the function
-console.log(printObjProp(simpleObject, true));
+// Call to the function to print the instance properties of the object.
+console.log(printObjectProperties(myObject, false));
 
