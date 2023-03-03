@@ -1,3 +1,17 @@
+let closureValueColumns = (function () {
+  let counter = 0;
+  return function () {
+    return counter;
+  };
+})();
+
+let closureValueRows = (function () {
+  let counter = 0;
+  return function () {
+    return counter;
+  };
+})();
+
 // -------------------------------------------------
 // ------------------START: PART 1------------------
 // PART 1: DEFINING THE FUNCTIONALITY + AND - BUTTONS:
@@ -74,18 +88,10 @@ function lessRows() {
 // PART 2: CONFIGURING THE GRID LAYOUT
 function applyChanges() {
   // ------START: VALUES OF COLUMNS AND ROWS ------
-  // Find the elements in the DOM:
-  // Number of rows:
-  const rowNumber = document.getElementById("rows-value");
-  // Number of columns:
-  const columnNumber = document.getElementById("columns-value");
-
   // Extract the values chosen by the user
-  // Columns:
-  let numericColumn = closureValueColumns();
+  let columns = closureValueColumns();
 
-  // Rows:
-  let numericRow = closureValueRows();
+  let rows = closureValueRows();
   // ------END: VALUES OF COLUMNS AND ROWS ------
 
   // -------------------START: MAIN CONTAINER ------------------
@@ -93,27 +99,24 @@ function applyChanges() {
   // Main container (where the grid is):
   const mainContainer = document.getElementById("mainContainer");
 
-  // This while is very important, is used to delete the content
-  // inside the main container every time the user chooses
-  // a new configuration of rows and columns
-  while (mainContainer.firstChild) {
-    mainContainer.removeChild(mainContainer.firstChild);
-  }
+  (function deleteOldConfiguration() {
+    while (mainContainer.firstChild) {
+      mainContainer.removeChild(mainContainer.firstChild);
+    }
+  })();
 
   // This style if for configuring the number of rows that the
   // grid will have:
   mainContainer.setAttribute(
     "style",
-    "grid-template-columns: repeat(" +
-      String(numericColumn) +
-      ", auto [row-start]);"
+    "grid-template-columns: repeat(" + String(columns) + ", auto [row-start]);"
   );
   // -------------------END: MAIN CONTAINER ------------------
 
   // ----------START: ADDING THE GRID ITEMS ------------------
-// Create a document fragment to avoid manipulating the rendered DOM on every loop iteration
+  // Create a document fragment to avoid manipulating the rendered DOM on every loop iteration
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i <= numericRow * numericColumn - 1; i++) {
+  for (let i = 0; i <= rows * columns - 1; i++) {
     // Creation of the grid items:
     const gritItem = document.createElement("div");
     // Some styles:
