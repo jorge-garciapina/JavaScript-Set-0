@@ -3,6 +3,8 @@
 // b.	It must hold ONLY numbers.
 
 class OnlyNumbers {
+  #value; // Declare a private class field
+
   constructor(value) {
     // Call the setValue() method to set the initial value of the object
     this.setValue(value);
@@ -15,13 +17,13 @@ class OnlyNumbers {
       throw new Error("Value must be a number");
     }
 
-    // If the input value is a number, set the _value property
-    this._value = value;
+    // If the input value is a number, set the #value private field
+    this.#value = value;
   }
 
   // Method to get the value of the object
   getValue() {
-    return this._value;
+    return this.#value;
   }
 }
 
