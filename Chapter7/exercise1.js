@@ -1,45 +1,37 @@
 function hex2Rgb(hex) {
-  // PART 1: BASIC DEFINITIONS
-  // Definition 1: Lower case the input to avoid capitalization problems.
   hex = hex.toLowerCase();
 
-  // Definition 2: Pattern that will be used to extract the information in input.
-  let regex = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
+  let regex = /^#?(([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})|[0-9a-f]{3})$/i;
   let match = hex.match(regex);
 
-  // If the input doesn't match the pattern, return null
   if (!match) {
     return null;
   }
 
-  // Extract the hexadecimal color from the match
   let hexColor = match[1];
 
-  // PART 2: CONVERSION HEXADECIMAL TO DECIMAL:
-  // Variable to save the output colors.
-  let colors = [];
-
-  // Loop over the hex digits in pairs
-  for (let i = 0; i < hexColor.length; i += 2) {
-    // Extract the pair of hex digits
-    let hexPair = hexColor.substring(i, i + 2);
-
-    // Convert the pair of hex digits to decimal
-    let dec = parseInt(hexPair, 16);
-
-    // Add the decimal value to the colors array
-    colors.push(dec);
+  // If the hex color is 3 characters, expand it to 6 characters
+  if (hexColor.length === 3) {
+    hexColor = hexColor
+      .split("")
+      .map((char) => char + char)
+      .join("");
   }
 
-  return `rgb(${colors.join(", ")})`;
+  // Use capture groups to extract the color components directly
+  let r = parseInt(match[2] || match[1][0] + match[1][0], 16);
+  let g = parseInt(match[3] || match[1][1] + match[1][1], 16);
+  let b = parseInt(match[4] || match[1][2] + match[1][2], 16);
+
+  return `rgb(${r}, ${g}, ${b})`;
 }
 
-console.log(hex2Rgb("#FF0000"));  // (255,0,0)
-console.log(hex2Rgb("#0000FF"));  // (0,0,255)
-console.log(hex2Rgb("#f0f"));     // (240,15)
-console.log(hex2Rgb("#00a"));     // (0,10)
-console.log(hex2Rgb("#3020ft"));  // null
-console.log(hex2Rgb("#12345"));   // null
-console.log(hex2Rgb("#GGG"));     // null
-console.log(hex2Rgb("#1234567")); // null
-console.log(hex2Rgb("#3020ft"));  // null
+console.log(hex2Rgb("#FF0000"));
+console.log(hex2Rgb("#0000FF"));
+console.log(hex2Rgb("#f0f"));
+console.log(hex2Rgb("#00a"));
+console.log(hex2Rgb("#3020ft"));
+console.log(hex2Rgb("#12345"));
+console.log(hex2Rgb("#GGG"));
+console.log(hex2Rgb("#1234567"));
+console.log(hex2Rgb("#3020ft"));
