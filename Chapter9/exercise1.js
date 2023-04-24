@@ -1,18 +1,20 @@
 function dataParse(input) {
+  // Preprocess the input string to replace the keys with valid JSON keys
+  let sanitizedInput = input.replace(/(\w+):/g, '"$1":');
+
   let obj;
 
-  // This structure is the validation of the input:
+  // Create an object from the sanitized input string using the Function constructor
   try {
-    obj = JSON.parse(input);
+    obj = new Function("return " + sanitizedInput + ";")();
   } catch (e) {
     throw new Error("Invalid input");
   }
 
-  // In this "for" the code evaluates if it is dealing with a function
-  // is so, it rewrites the entry, transforming it into a method.
+  // Iterate through the object properties and convert string representations of functions into actual functions
   for (let prop in obj) {
     if (typeof obj[prop] === "string" && obj[prop].startsWith("function")) {
-      obj[prop] = Function('"use strict";return (' + obj[prop] + ")")();
+      obj[prop] = new Function("return " + obj[prop])();
     }
   }
 
@@ -27,4 +29,3 @@ var str2 = `{"prop1": 42, "myFn": "function(a, b) { return a+b+this.prop1;}"}`;
 let obj2 = dataParse(str2);
 console.log("obj2.prop1= ", obj2.prop1);
 console.log("obj2.myFn(1, 5)= ", obj2.myFn(1, 5));
-// console.log(obj.myFn(1, 1));
