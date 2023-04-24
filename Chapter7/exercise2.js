@@ -9,7 +9,8 @@ function englishFrench(date) {
   //   -hollidays- is a closure where we relate the input given
   // by the user, with the lookup table.
   let hollidays = (day) => {
-    if (Object.keys(hollidaysFrance).indexOf(day) !== -1) {
+    // Check if the key exists directly in the object
+    if (day in hollidaysFrance) {
       return hollidaysFrance[day];
     } else {
       return -1;
@@ -40,6 +41,6 @@ function englishFrench(date) {
     return `${day}/${month}/${year} (${celebration})`;
   }
 }
-
 console.log(englishFrench("01/01/2014"));
+console.log(englishFrench("05/01/2014"));
 console.log(englishFrench("03/03/2014"));
