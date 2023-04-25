@@ -1,0 +1,20 @@
+[
+  {
+    "image": "./images/article1.png",
+    "title": "Article 1 Title",
+    "snippet": "Article 1 Snippet",
+    "text": "Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 "
+  },
+  {
+    "image": "./images/article2.png",
+    "title": "Article 2 Title",
+    "snippet": "Article 2 Snippet",
+    "text": "Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 Article 2 "
+  },
+  {
+    "image": "./images/article3.png",
+    "title": "Article 3 Title",
+    "snippet": "Article 3 Snippet",
+    "text": "Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 Article 3 "
+  }
+]
