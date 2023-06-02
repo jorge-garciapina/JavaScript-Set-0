@@ -22,7 +22,7 @@ function englishFrench(date) {
   let match = date.match(regex);
 
   if (!match) {
-    return "Invalid date format";
+    throw new Error("Invalid date format"); // Throw an Error object instead of a string
   }
 
   let [, month, day, year] = match;
@@ -44,3 +44,5 @@ function englishFrench(date) {
 console.log(englishFrench("01/01/2014"));
 console.log(englishFrench("05/01/2014"));
 console.log(englishFrench("03/03/2014"));
+console.log(englishFrench("0303/2014")); // Error
+
