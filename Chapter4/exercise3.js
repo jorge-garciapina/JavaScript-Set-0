@@ -6,31 +6,31 @@ class OnlyNumbers {
   #value; // Declare a private class field
 
   constructor(value) {
-    // Call the setValue() method to set the initial value of the object
-    this.setValue(value);
+    this.value = value;
   }
 
-  // Method to set the value of the object
-  setValue(value) {
+  // Method to set the value
+  set value(v) {
     // Check whether the input value is a number
-    if (typeof value !== "number") {
+    if (typeof v !== "number") {
       throw new Error("Value must be a number");
     }
 
     // If the input value is a number, set the #value private field
-    this.#value = value;
+    this.#value = v;
   }
 
-  // Method to get the value of the object
-  getValue() {
+  // Method to get the value
+  get value() {
     return this.#value;
   }
 }
 
 let numberObject = new OnlyNumbers(5);
-console.log(numberObject.getValue()); // Output: 5
+console.log(numberObject.value); // Output: 5, no need for getValue(), you can directly access the property.
 
-numberObject.setValue(0);
-console.log(numberObject.getValue()); // Output: 0
+numberObject.value = 0;
+console.log(numberObject.value); // Output: 0
 
-numberObject.setValue("text"); // Throws an error
+numberObject.value = "text"; // Throws an error
+
