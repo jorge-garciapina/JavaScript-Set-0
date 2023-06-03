@@ -1,12 +1,9 @@
 function dataParse(input) {
-  // Preprocess the input string to replace the keys with valid JSON keys
-  let sanitizedInput = input.replace(/(\w+):/g, '"$1":');
-
   let obj;
 
   // Create an object from the sanitized input string using the Function constructor
   try {
-    obj = new Function("return " + sanitizedInput + ";")();
+    obj = new Function("return " + input + ";")();
   } catch (e) {
     throw new Error("Invalid input");
   }
