@@ -29,12 +29,6 @@ function gridCreation(side) {
       // Text inside the divs
       rowElement.textContent = String(index);
 
-      // Add the click event listener to each rowElement
-      rowElement.addEventListener("click", (event) => {
-        event.stopPropagation();
-        alert(event.target.textContent);
-      });
-
       // Append the rowElements to the row
       row.appendChild(rowElement);
       index++;
@@ -44,6 +38,15 @@ function gridCreation(side) {
 
   // Append the fragment to the main div
   element.appendChild(fragment);
+
+  // Add a single event listener to the parent container
+  element.addEventListener("click", (event) => {
+    // Check if the clicked element has the 'row-element' class
+    // If it does, show an alert with the element's text content
+    if (event.target.classList.contains("row-element")) {
+      alert(event.target.textContent);
+    }
+  });
 }
 
 // It is possible to change the size of the grid
