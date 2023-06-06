@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SPA</title>
     <style>
+      #app {
+        counter-reset: article;
+      }
       .template1 {
         display: flex;
         align-items: center;
         cursor: pointer;
+        counter-increment: article;
+      }
+      .template1::before {
+        content: counter(article) ". ";
       }
       .template1 img {
         max-width: 100px;
@@ -28,6 +35,26 @@
   </head>
   <body>
     <div id="app"></div>
+
+    <template id="template1">
+      <div class="template1">
+        <img src="" alt="" />
+        <div class="content">
+          <h2></h2>
+          <p></p>
+        </div>
+      </div>
+    </template>
+
+    <template id="template2">
+      <div class="template2">
+        <img src="" alt="" />
+        <h2></h2>
+        <p></p>
+        <a href="#" class="back-link">Go back</a>
+      </div>
+    </template>
+
     <script src="app.js"></script>
   </body>
 </html>
