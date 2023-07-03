@@ -7,18 +7,16 @@ async function fetchData() {
 
 function createTemplate1(data, index) {
   const template = document.querySelector("#template1");
-  const div = template.content.cloneNode(true);
+  const link = template.content.firstElementChild;
+  const clone = document.importNode(link, true);
 
-  div.querySelector("img").src = data.image;
-  div.querySelector("img").alt = data.title;
-  div.querySelector("h2").textContent = data.title;
-  div.querySelector("p").textContent = data.snippet;
+  clone.href = `#article${index + 1}`;
+  clone.querySelector("img").src = data.image;
+  clone.querySelector("img").alt = data.title;
+  clone.querySelector("h2").textContent = data.title;
+  clone.querySelector("p").textContent = data.snippet;
 
-  div.querySelector(".template1").addEventListener("click", () => {
-    renderTemplate2(data, index);
-  });
-
-  return div;
+  return clone;
 }
 
 function createTemplate2(data) {
@@ -29,12 +27,7 @@ function createTemplate2(data) {
   div.querySelector("img").alt = data.title;
   div.querySelector("h2").textContent = data.title;
   div.querySelector("p").textContent = data.text;
-
-  div.querySelector(".back-link").addEventListener("click", (e) => {
-    e.preventDefault();
-    history.pushState(null, "", "/");
-    navigateToView();
-  });
+  div.querySelector(".back-link").href = "#";
 
   return div;
 }
@@ -51,15 +44,14 @@ function renderTemplate2(data, index) {
   app.innerHTML = "";
   const template = createTemplate2(data);
   app.appendChild(template);
-  history.pushState({ index: index }, "", `/article${index + 1}`);
 }
 
 async function navigateToView() {
   const data = await fetchData();
-  const path = window.location.pathname;
+  const hash = window.location.hash;
 
-  if (path.startsWith("/article")) {
-    const index = parseInt(path.replace("/article", ""), 10) - 1;
+  if (hash.startsWith("#article")) {
+    const index = parseInt(hash.replace("#article", ""), 10) - 1;
     if (index >= 0 && index < data.length) {
       renderTemplate2(data[index], index);
     } else {
@@ -73,11 +65,5 @@ async function navigateToView() {
 
 navigateToView();
 
-// Update the view when the back button is clicked
-window.addEventListener("popstate", (event) => {
-  navigateToView();
-  const index = event.state && event.state.index;
-  if (index !== undefined) {
-    renderTemplate2(data[index], index);
-  }
-});
+// Update the view when the hash changes
+window.addEventListener("hashchange", navigateToView);
