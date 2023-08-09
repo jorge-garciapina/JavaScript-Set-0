@@ -1,18 +1,10 @@
 function dataParse(input) {
   let obj;
-
   try {
     obj = new Function("return " + input + ";")();
   } catch (e) {
     throw new Error("Invalid input");
   }
-
-  for (let prop in obj) {
-    if (typeof obj[prop] === "string" && obj[prop].startsWith("function")) {
-      obj[prop] = new Function("return " + obj[prop])();
-    }
-  }
-
   return obj;
 }
 
